@@ -4,11 +4,11 @@ const { validateBody, authenticate, upload } = require("../../middlewares");
 const { schemas } = require("../../models/user");
 const { userCtrl } = require("../../controllers");
 
-router.post(
-  "/register",
-  validateBody(schemas.registerSchema),
-  userCtrl.register
-);
+router.post("/register", validateBody(schemas.registerSchema), userCtrl.register);
+
+router.get("/verify/:verificationCode", userCtrl.verifyEmail);
+
+router.post("/verify", validateBody(schemas.verifyEmailShema), userCtrl.resendVerifyEmail);
 
 router.post("/login", validateBody(schemas.loginSchema), userCtrl.login);
 

@@ -13,12 +13,16 @@ const login = async (req, res, next) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
-    if (!user) {
+    if(!user) {
       throw HttpError(401, "Email or password invalid");
     }
 
+    if(!user.verify) {
+      throw HttpError(401, "Email not verify");
+    }
+
     const passwordCompare = await bcrypt.compare(password, user.password);
-    if (!passwordCompare) {
+    if(!passwordCompare) {
       throw HttpError(401, "Email or password invalid");
     }
 
